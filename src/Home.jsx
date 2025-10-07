@@ -16,7 +16,7 @@ function Home() {
   const currencyPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
   const [pairs, setPairs] = useState([]);
 
-  // Initialize pair data with random trend data
+  // Generate dummy data for live currency pairs
   useEffect(() => {
     const generatePairData = () => {
       return currencyPairs.map((pair) => {
@@ -40,11 +40,8 @@ function Home() {
       });
     };
 
-    const interval = setInterval(() => {
-      setPairs(generatePairData());
-    }, 5000);
-
-    setPairs(generatePairData());
+    setPairs(generatePairData()); // initial load
+    const interval = setInterval(() => setPairs(generatePairData()), 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -73,7 +70,7 @@ function Home() {
         </div>
       </section>
 
-      {/* Live Currency Pairs with Mini Charts */}
+      {/* Live Currency Pairs with Mini Trend Charts */}
       <section className="pair-feed">
         <h2>💱 Live Currency Pairs</h2>
         <div className="pair-list">
@@ -127,7 +124,7 @@ function Home() {
                       y: { display: false },
                     },
                   }}
-                  height={60}
+                  height={80}
                 />
               </div>
             </div>

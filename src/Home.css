@@ -85,45 +85,8 @@
     justify-content: center;
   }
 }
-.signal-feed {
-  margin-top: 3rem;
-  text-align: center;
-}
 
-.signal-feed h2 {
-  margin-bottom: 1rem;
-  color: #22c55e;
-}
-
-.signal-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  align-items: center;
-}
-
-.signal-card {
-  background: #1e293b;
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  display: flex;
-  justify-content: space-between;
-  font-weight: 500;
-  animation: fadeInUp 0.5s ease;
-}
-
-.signal-card .call {
-  color: #22c55e; /* green for CALL */
-  font-weight: bold;
-}
-
-.signal-card .put {
-  color: #ef4444; /* red for PUT */
-  font-weight: bold;
-}
-
+/* Live Currency Pair Feed */
 .pair-feed {
   margin-top: 3rem;
   text-align: center;
@@ -148,9 +111,17 @@
   width: 90%;
   max-width: 450px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.5rem;
   font-weight: 500;
   animation: fadeInUp 0.5s ease;
+  flex: 0 0 auto; /* ensures chart is visible */
+}
+
+.pair-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
 }
 
 .pair-name {
@@ -159,39 +130,6 @@
 
 .pair-price {
   color: #38bdf8;
-}
-
-.pair-strength.buy {
-  color: #22c55e;
-  font-weight: bold;
-}
-
-.pair-strength.sell {
-  color: #ef4444;
-  font-weight: bold;
-}
-
-.pair-strength.neutral {
-  color: #facc15;
-  font-weight: bold;
-}
-.pair-card {
-  background: #1e293b;
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 450px;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-weight: 500;
-  animation: fadeInUp 0.5s ease;
-}
-
-.pair-info {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
 }
 
 .strength-bar-container {
@@ -225,8 +163,11 @@
   font-size: 0.8rem;
   color: #cbd5e1;
 }
+
+/* Mini Trend Chart */
 .mini-chart {
   margin-top: 6px;
   width: 100%;
-  height: 60px;
+  height: 80px; /* ensures chart visibility */
+  min-height: 60px;
 }
