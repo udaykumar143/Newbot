@@ -1,16 +1,14 @@
 import React from "react";
 import "./Home.css";
-import { useLivePairs } from "./useLivePairs"; // updated hook
+import { useLivePairs } from "./useLivePairs";
 import { TWELVE_DATA_API_KEY } from "./config.js";
 import ForexClock from "./components/ForexClock.jsx";
 
 function Home() {
-  // Use the updated hook
   const { pairs, prices } = useLivePairs(TWELVE_DATA_API_KEY);
 
-  // Optional: filter for only your main pairs
-  const mainPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
-  const displayedPairs = pairs.filter(p => mainPairs.includes(p));
+  // Display only these main pairs
+  const displayedPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
 
   return (
     <div className="home-container">
@@ -19,7 +17,7 @@ function Home() {
         <p>Real-time updates for Forex and Crypto trading</p>
       </header>
 
-      <ForexClock/>
+      <ForexClock />
 
       <section className="pair-feed">
         <div className="pair-list">
@@ -31,11 +29,8 @@ function Home() {
               </div>
 
               <div className="strength-bar-container">
-                {/* For now, dummy strength values; you can calculate later */}
-                <div
-                  className="strength-bar neutral"
-                  style={{ width: `50%` }}
-                ></div>
+                {/* Placeholder strength bar */}
+                <div className="strength-bar neutral" style={{ width: `50%` }}></div>
               </div>
 
               <span className="strength-label">Neutral</span>
