@@ -1,7 +1,7 @@
 import React from "react";
 import "./Home.css";
 import { useLivePairs } from "./useLivePairs"; // path to your hook
-import { TWELVE_DATA_API_KEY } from "./config"; // your config file
+import { TWELVE_DATA_API_KEY } from "../../config.js"; // your config file
 
 function Home() {
   const currencyPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
