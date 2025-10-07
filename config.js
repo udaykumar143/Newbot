@@ -1,0 +1,1 @@
+export const TWELVE_DATA_API_KEY = "5173bd2c96674ca2a18f504d6ab6339d";
