@@ -1,6 +1,6 @@
 // src/components/ForexClock.jsx
 import React, { useEffect, useState } from "react";
-import { getCurrentSessionStatus } from "../utils/sessions";
+import { getCurrentSessionStatus } from "../utils/sessions.js";
 
 function ForexClock() {
   const [status, setStatus] = useState(getCurrentSessionStatus());
