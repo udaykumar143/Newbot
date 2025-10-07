@@ -20,7 +20,7 @@ function Home() {
         );
 
         const updatedPairs = responses.map((res, index) => {
-          const currentPrice = res.price ? parseFloat(res.price) : null; // handle closed market
+          const currentPrice = res.price ? parseFloat(res.price) : null;
           const previousPrice = previousPrices[currencyPairs[index]] || currentPrice;
 
           let strengthPercent = 0;
@@ -28,8 +28,7 @@ function Home() {
 
           if (currentPrice !== null) {
             const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
-
-            strengthPercent = Math.min(Math.abs(changePercent) * 10, 100); // scale 0-100%
+            strengthPercent = Math.min(Math.abs(changePercent) * 10, 100);
             if (changePercent > 2) strengthLabel = "Strong Buy";
             else if (changePercent > 0.5) strengthLabel = "Buy";
             else if (changePercent < -2) strengthLabel = "Strong Sell";
@@ -45,7 +44,6 @@ function Home() {
           };
         });
 
-        // Store current prices for next interval
         const newPreviousPrices = {};
         updatedPairs.forEach((p) => {
           if (p.price !== "Asset is closed") newPreviousPrices[p.pair] = parseFloat(p.price);
@@ -58,38 +56,19 @@ function Home() {
       }
     };
 
-    fetchPairsData(); // initial fetch
-    const interval = setInterval(fetchPairsData, 5000); // update every 5s
+    fetchPairsData();
+    const interval = setInterval(fetchPairsData, 5000);
     return () => clearInterval(interval);
   }, [previousPrices]);
 
   return (
     <div className="home-container">
       <header className="home-header">
-        <h1>Newbot Signals 📈</h1>
-        <p>Real-time currency pairs with signal strength for binary trading</p>
+        <h1>💱 Live Currency Signals</h1>
+        <p>Real-time updates for Forex and Crypto trading</p>
       </header>
 
-      <section className="home-content">
-        <div className="card">
-          <h2>⚡ Real-Time Alerts</h2>
-          <p>Get instant notifications for the best binary trading opportunities.</p>
-        </div>
-
-        <div className="card">
-          <h2>📊 Expert Analysis</h2>
-          <p>Signals based on trend analysis, candlestick patterns, and market volatility.</p>
-        </div>
-
-        <div className="card">
-          <h2>💹 Multi-Asset Support</h2>
-          <p>Trade across Forex, Crypto, and OTC markets with smart signals.</p>
-        </div>
-      </section>
-
-      {/* Live Currency Pairs Section */}
       <section className="pair-feed">
-        <h2>💱 Live Currency Pairs</h2>
         <div className="pair-list">
           {pairs.map((p, index) => (
             <div key={index} className="pair-card">

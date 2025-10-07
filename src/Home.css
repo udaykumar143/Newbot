@@ -1,4 +1,4 @@
-/* Container */
+/* ===== Home Container ===== */
 .home-container {
   text-align: center;
   padding: 2rem;
@@ -7,137 +7,83 @@
   color: #f8fafc;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  font-family: 'Arial', sans-serif;
 }
 
-/* Header */
+/* ===== Header ===== */
+.home-header {
+  margin-bottom: 2rem;
+}
+
 .home-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  margin-bottom: 0.3rem;
   color: #38bdf8;
   animation: fadeInDown 1s ease;
 }
 
 .home-header p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #cbd5e1;
   animation: fadeIn 1.5s ease;
 }
 
-/* Cards */
-.home-content {
+/* ===== Pair List ===== */
+.pair-feed {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 2rem;
   align-items: center;
-}
-
-.card {
-  background: #1e293b;
-  padding: 1.5rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  animation: fadeInUp 1s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
-}
-
-.card h2 {
-  margin-bottom: 0.5rem;
-  color: #facc15;
-}
-
-/* Footer */
-.home-footer {
-  margin-top: 3rem;
-  font-size: 0.9rem;
-  color: #94a3b8;
-}
-
-/* Animations */
-@keyframes fadeInDown {
-  0% { opacity: 0; transform: translateY(-20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* Responsive */
-@media (min-width: 768px) {
-  .home-content {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
-
-/* Live Currency Pair Feed */
-.pair-feed {
-  margin-top: 3rem;
-  text-align: center;
-}
-
-.pair-feed h2 {
-  margin-bottom: 1rem;
-  color: #22c55e;
+  gap: 1rem;
+  width: 100%;
 }
 
 .pair-list {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  align-items: center;
+  width: 100%;
+  max-width: 500px;
 }
 
+/* ===== Individual Pair Card ===== */
 .pair-card {
   background: #1e293b;
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 450px;
+  padding: 1rem 1.2rem;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  font-weight: 500;
-  animation: fadeInUp 0.5s ease;
-  flex: 0 0 auto;
-  /* ensures chart is visible */
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.pair-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* Pair info row */
 .pair-info {
   display: flex;
   justify-content: space-between;
   font-weight: bold;
+  font-size: 1rem;
 }
 
 .pair-name {
-  font-weight: bold;
+  color: #f8fafc;
 }
 
 .pair-price {
   color: #38bdf8;
 }
 
+/* Signal strength bar */
 .strength-bar-container {
   background: #334155;
   border-radius: 6px;
-  height: 10px;
+  height: 12px;
   width: 100%;
   overflow: hidden;
 }
@@ -149,19 +95,52 @@
 }
 
 .strength-bar.buy {
-  background: #22c55e; /* green */
+  background: #22c55e;
 }
 
 .strength-bar.sell {
-  background: #ef4444; /* red */
+  background: #ef4444;
 }
 
 .strength-bar.neutral {
-  background: #facc15; /* yellow */
+  background: #facc15;
+}
+
+/* Closed asset style */
+.strength-bar-container:empty,
+.strength-bar[style*="width: 0%"] {
+  background: #64748b; /* gray bar for closed asset */
 }
 
 .strength-label {
   text-align: right;
   font-size: 0.8rem;
   color: #cbd5e1;
+}
+
+/* ===== Footer ===== */
+.home-footer {
+  margin-top: auto;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  padding-top: 1.5rem;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInDown {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ===== Responsive ===== */
+@media (min-width: 768px) {
+  .pair-list {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
