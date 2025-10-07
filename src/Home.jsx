@@ -25,6 +25,10 @@ function Home() {
           <p>Fully modular — add pages, components, and APIs easily.</p>
         </div>
       </section>
+
+      <footer className="home-footer">
+        <p>© 2025 Newbot. Made with 💙 using React + Vite</p>
+      </footer>
     </div>
   );
 }
