@@ -175,3 +175,53 @@
   color: #facc15;
   font-weight: bold;
 }
+.pair-card {
+  background: #1e293b;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 500;
+  animation: fadeInUp 0.5s ease;
+}
+
+.pair-info {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.strength-bar-container {
+  background: #334155;
+  border-radius: 6px;
+  height: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.strength-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+.strength-bar.buy {
+  background: #22c55e; /* green */
+}
+
+.strength-bar.sell {
+  background: #ef4444; /* red */
+}
+
+.strength-bar.neutral {
+  background: #facc15; /* yellow */
+}
+
+.strength-label {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}

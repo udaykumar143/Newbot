@@ -4,21 +4,28 @@ import "./Home.css";
 function Home() {
   const [pairs, setPairs] = useState([]);
 
-  // Dummy live currency pairs generator
+  // Dummy live currency pairs with signal strength %
   useEffect(() => {
     const currencyPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
     
     const generatePairData = () => {
-      return currencyPairs.map((pair) => ({
-        pair,
-        price: (Math.random() * (150 - 1) + 1).toFixed(4), // random price
-        strength: ["Strong Buy", "Buy", "Neutral", "Sell", "Strong Sell"][
-          Math.floor(Math.random() * 5)
-        ],
-      }));
+      return currencyPairs.map((pair) => {
+        const strengthPercent = Math.floor(Math.random() * 101); // 0-100%
+        let strengthLabel = "Neutral";
+        if (strengthPercent >= 70) strengthLabel = "Strong Buy";
+        else if (strengthPercent >= 50) strengthLabel = "Buy";
+        else if (strengthPercent >= 30) strengthLabel = "Sell";
+        else strengthLabel = "Strong Sell";
+
+        return {
+          pair,
+          price: (Math.random() * (150 - 1) + 1).toFixed(4),
+          strengthPercent,
+          strengthLabel,
+        };
+      });
     };
 
-    // Update every 5 seconds
     const interval = setInterval(() => {
       setPairs(generatePairData());
     }, 5000);
@@ -53,25 +60,29 @@ function Home() {
         </div>
       </section>
 
-      {/* Live Currency Pairs Section */}
+      {/* Live Currency Pairs Section with Strength Bars */}
       <section className="pair-feed">
         <h2>💱 Live Currency Pairs</h2>
         <div className="pair-list">
           {pairs.map((p, index) => (
             <div key={index} className="pair-card">
-              <span className="pair-name">{p.pair}</span>
-              <span className="pair-price">${p.price}</span>
-              <span
-                className={`pair-strength ${
-                  p.strength.includes("Buy")
-                    ? "buy"
-                    : p.strength.includes("Sell")
-                    ? "sell"
-                    : "neutral"
-                }`}
-              >
-                {p.strength}
-              </span>
+              <div className="pair-info">
+                <span className="pair-name">{p.pair}</span>
+                <span className="pair-price">${p.price}</span>
+              </div>
+              <div className="strength-bar-container">
+                <div
+                  className={`strength-bar ${
+                    p.strengthLabel.includes("Buy")
+                      ? "buy"
+                      : p.strengthLabel.includes("Sell")
+                      ? "sell"
+                      : "neutral"
+                  }`}
+                  style={{ width: `${p.strengthPercent}%` }}
+                ></div>
+              </div>
+              <span className="strength-label">{p.strengthLabel}</span>
             </div>
           ))}
         </div>
