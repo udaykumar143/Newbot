@@ -3,7 +3,7 @@ import "./Home.css";
 
 function Home() {
   const [pairs, setPairs] = useState([]);
-  const [previousPrices, setPreviousPrices] = useState({}); // store last prices
+  const [previousPrices, setPreviousPrices] = useState({});
 
   const currencyPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
   const apiKey = "5173bd2c96674ca2a18f504d6ab6339d"; // replace with your API key
@@ -20,31 +20,36 @@ function Home() {
         );
 
         const updatedPairs = responses.map((res, index) => {
-          const currentPrice = parseFloat(res.price);
+          const currentPrice = res.price ? parseFloat(res.price) : null; // handle closed market
           const previousPrice = previousPrices[currencyPairs[index]] || currentPrice;
 
-          // Calculate strength based on price change %
-          const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+          let strengthPercent = 0;
+          let strengthLabel = "Closed";
 
-          let strengthPercent = Math.min(Math.abs(changePercent) * 10, 100); // scale to 0-100%
-          let strengthLabel = "Neutral";
+          if (currentPrice !== null) {
+            const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
 
-          if (changePercent > 2) strengthLabel = "Strong Buy";
-          else if (changePercent > 0.5) strengthLabel = "Buy";
-          else if (changePercent < -2) strengthLabel = "Strong Sell";
-          else if (changePercent < -0.5) strengthLabel = "Sell";
+            strengthPercent = Math.min(Math.abs(changePercent) * 10, 100); // scale 0-100%
+            if (changePercent > 2) strengthLabel = "Strong Buy";
+            else if (changePercent > 0.5) strengthLabel = "Buy";
+            else if (changePercent < -2) strengthLabel = "Strong Sell";
+            else if (changePercent < -0.5) strengthLabel = "Sell";
+            else strengthLabel = "Neutral";
+          }
 
           return {
             pair: currencyPairs[index],
-            price: currentPrice.toFixed(4),
+            price: currentPrice !== null ? currentPrice.toFixed(4) : "Asset is closed",
             strengthPercent,
             strengthLabel,
           };
         });
 
-        // Save current prices for next update
+        // Store current prices for next interval
         const newPreviousPrices = {};
-        updatedPairs.forEach((p) => (newPreviousPrices[p.pair] = parseFloat(p.price)));
+        updatedPairs.forEach((p) => {
+          if (p.price !== "Asset is closed") newPreviousPrices[p.pair] = parseFloat(p.price);
+        });
         setPreviousPrices(newPreviousPrices);
 
         setPairs(updatedPairs);
@@ -53,13 +58,10 @@ function Home() {
       }
     };
 
-    // Initial fetch
-    fetchPairsData();
-
-    // Update every 5 seconds
-    const interval = setInterval(fetchPairsData, 5000);
+    fetchPairsData(); // initial fetch
+    const interval = setInterval(fetchPairsData, 5000); // update every 5s
     return () => clearInterval(interval);
-  }, [previousPrices]); // dependency to store previous prices
+  }, [previousPrices]);
 
   return (
     <div className="home-container">
@@ -93,7 +95,7 @@ function Home() {
             <div key={index} className="pair-card">
               <div className="pair-info">
                 <span className="pair-name">{p.pair}</span>
-                <span className="pair-price">${p.price}</span>
+                <span className="pair-price">{p.price}</span>
               </div>
               <div className="strength-bar-container">
                 <div
