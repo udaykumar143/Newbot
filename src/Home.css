@@ -85,3 +85,41 @@
     justify-content: center;
   }
 }
+.signal-feed {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.signal-feed h2 {
+  margin-bottom: 1rem;
+  color: #22c55e;
+}
+
+.signal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.signal-card {
+  background: #1e293b;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  animation: fadeInUp 0.5s ease;
+}
+
+.signal-card .call {
+  color: #22c55e; /* green for CALL */
+  font-weight: bold;
+}
+
+.signal-card .put {
+  color: #ef4444; /* red for PUT */
+  font-weight: bold;
+}
