@@ -8,7 +8,7 @@ function Home() {
   const { pairs, prices } = useLivePairs(TWELVE_DATA_API_KEY);
 
   // Display only these main pairs
-  const displayedPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
+  const displayedPairs = ["EUR/USD", "USD/JPY", "GBP/USD"];
 
   return (
     <div className="home-container">
