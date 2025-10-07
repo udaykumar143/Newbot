@@ -123,3 +123,55 @@
   color: #ef4444; /* red for PUT */
   font-weight: bold;
 }
+
+.pair-feed {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.pair-feed h2 {
+  margin-bottom: 1rem;
+  color: #22c55e;
+}
+
+.pair-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.pair-card {
+  background: #1e293b;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
+  animation: fadeInUp 0.5s ease;
+}
+
+.pair-name {
+  font-weight: bold;
+}
+
+.pair-price {
+  color: #38bdf8;
+}
+
+.pair-strength.buy {
+  color: #22c55e;
+  font-weight: bold;
+}
+
+.pair-strength.sell {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.pair-strength.neutral {
+  color: #facc15;
+  font-weight: bold;
+}

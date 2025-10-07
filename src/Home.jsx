@@ -2,26 +2,29 @@ import React, { useState, useEffect } from "react";
 import "./Home.css";
 
 function Home() {
-  const [signals, setSignals] = useState([]);
+  const [pairs, setPairs] = useState([]);
 
-  // Dummy real-time signal generator
+  // Dummy live currency pairs generator
   useEffect(() => {
-    const generateSignal = () => {
-      const assets = ["EUR/USD", "BTC/USD", "USD/JPY", "ETH/USD", "Gold"];
-      const direction = ["CALL", "PUT"];
-      const amount = [1, 5, 10, 20];
-
-      return {
-        asset: assets[Math.floor(Math.random() * assets.length)],
-        direction: direction[Math.floor(Math.random() * direction.length)],
-        amount: amount[Math.floor(Math.random() * amount.length)],
-        time: new Date().toLocaleTimeString(),
-      };
+    const currencyPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
+    
+    const generatePairData = () => {
+      return currencyPairs.map((pair) => ({
+        pair,
+        price: (Math.random() * (150 - 1) + 1).toFixed(4), // random price
+        strength: ["Strong Buy", "Buy", "Neutral", "Sell", "Strong Sell"][
+          Math.floor(Math.random() * 5)
+        ],
+      }));
     };
 
+    // Update every 5 seconds
     const interval = setInterval(() => {
-      setSignals((prev) => [generateSignal(), ...prev].slice(0, 5)); // keep last 5 signals
-    }, 3000);
+      setPairs(generatePairData());
+    }, 5000);
+
+    // Initial load
+    setPairs(generatePairData());
 
     return () => clearInterval(interval);
   }, []);
@@ -30,7 +33,7 @@ function Home() {
     <div className="home-container">
       <header className="home-header">
         <h1>Newbot Signals 📈</h1>
-        <p>Accurate binary trading signals delivered in real-time</p>
+        <p>Real-time currency pairs with signal strength for binary trading</p>
       </header>
 
       <section className="home-content">
@@ -50,18 +53,25 @@ function Home() {
         </div>
       </section>
 
-      {/* Live Signal Feed */}
-      <section className="signal-feed">
-        <h2>🟢 Live Signals</h2>
-        <div className="signal-list">
-          {signals.map((signal, index) => (
-            <div key={index} className="signal-card">
-              <span>{signal.time}</span>
-              <span>{signal.asset}</span>
-              <span className={signal.direction === "CALL" ? "call" : "put"}>
-                {signal.direction}
+      {/* Live Currency Pairs Section */}
+      <section className="pair-feed">
+        <h2>💱 Live Currency Pairs</h2>
+        <div className="pair-list">
+          {pairs.map((p, index) => (
+            <div key={index} className="pair-card">
+              <span className="pair-name">{p.pair}</span>
+              <span className="pair-price">${p.price}</span>
+              <span
+                className={`pair-strength ${
+                  p.strength.includes("Buy")
+                    ? "buy"
+                    : p.strength.includes("Sell")
+                    ? "sell"
+                    : "neutral"
+                }`}
+              >
+                {p.strength}
               </span>
-              <span>${signal.amount}</span>
             </div>
           ))}
         </div>
