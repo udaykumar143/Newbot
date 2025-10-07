@@ -3,38 +3,63 @@ import "./Home.css";
 
 function Home() {
   const [pairs, setPairs] = useState([]);
+  const [previousPrices, setPreviousPrices] = useState({}); // store last prices
 
-  // Dummy live currency pairs with signal strength %
+  const currencyPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
+  const apiKey = "5173bd2c96674ca2a18f504d6ab6339d"; // replace with your API key
+
   useEffect(() => {
-    const currencyPairs = ["EUR/USD", "USD/JPY", "GBP/USD", "BTC/USD", "ETH/USD"];
-    
-    const generatePairData = () => {
-      return currencyPairs.map((pair) => {
-        const strengthPercent = Math.floor(Math.random() * 101); // 0-100%
-        let strengthLabel = "Neutral";
-        if (strengthPercent >= 70) strengthLabel = "Strong Buy";
-        else if (strengthPercent >= 50) strengthLabel = "Buy";
-        else if (strengthPercent >= 30) strengthLabel = "Sell";
-        else strengthLabel = "Strong Sell";
+    const fetchPairsData = async () => {
+      try {
+        const responses = await Promise.all(
+          currencyPairs.map((pair) =>
+            fetch(
+              `https://api.twelvedata.com/price?symbol=${pair.replace("/", "")}&apikey=${apiKey}`
+            ).then((res) => res.json())
+          )
+        );
 
-        return {
-          pair,
-          price: (Math.random() * (150 - 1) + 1).toFixed(4),
-          strengthPercent,
-          strengthLabel,
-        };
-      });
+        const updatedPairs = responses.map((res, index) => {
+          const currentPrice = parseFloat(res.price);
+          const previousPrice = previousPrices[currencyPairs[index]] || currentPrice;
+
+          // Calculate strength based on price change %
+          const changePercent = ((currentPrice - previousPrice) / previousPrice) * 100;
+
+          let strengthPercent = Math.min(Math.abs(changePercent) * 10, 100); // scale to 0-100%
+          let strengthLabel = "Neutral";
+
+          if (changePercent > 2) strengthLabel = "Strong Buy";
+          else if (changePercent > 0.5) strengthLabel = "Buy";
+          else if (changePercent < -2) strengthLabel = "Strong Sell";
+          else if (changePercent < -0.5) strengthLabel = "Sell";
+
+          return {
+            pair: currencyPairs[index],
+            price: currentPrice.toFixed(4),
+            strengthPercent,
+            strengthLabel,
+          };
+        });
+
+        // Save current prices for next update
+        const newPreviousPrices = {};
+        updatedPairs.forEach((p) => (newPreviousPrices[p.pair] = parseFloat(p.price)));
+        setPreviousPrices(newPreviousPrices);
+
+        setPairs(updatedPairs);
+      } catch (error) {
+        console.error("Error fetching Forex data:", error);
+      }
     };
 
-    const interval = setInterval(() => {
-      setPairs(generatePairData());
-    }, 5000);
+    // Initial fetch
+    fetchPairsData();
 
-    // Initial load
-    setPairs(generatePairData());
-
+    // Update every 5 seconds
+    const interval = setInterval(fetchPairsData, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [previousPrices]); // dependency to store previous prices
 
   return (
     <div className="home-container">
